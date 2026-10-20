@@ -1,6 +1,7 @@
 // Servidor de Moon Walker: registra usuarios en MySQL y les inicia sesión.
 // Se enciende con node server.js y se abre en http://localhost:3000
 
+
 require("dotenv").config();
 const express = require("express");
 const mysql = require("mysql2/promise");
@@ -89,14 +90,25 @@ app.post("/login", async (req, res) => {
     }
 });
 
-// Arranque: primero prueba la conexión con MySQL
-db.query("SELECT 1 FROM usuarios LIMIT 1")
+// Arranque: se conecta a MySQL y crea la tabla si todavía no existe (igual que moonwalker.sql)
+db.query(`CREATE TABLE IF NOT EXISTS usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    correo VARCHAR(150) NOT NULL UNIQUE,
+    contrasena_hash VARCHAR(255) NOT NULL,
+    fecha_nacimiento DATE NOT NULL,
+    rol ENUM('paciente','fisioterapeuta') NOT NULL DEFAULT 'paciente',
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)`)
     .then(() => {
         // El hosting asigna el puerto en PORT; en tu computador se usa el 3000
         const puerto = process.env.PORT || 3000;
         app.listen(puerto, () => console.log("Servidor activo en el puerto " + puerto));
     })
     .catch((error) => {
-        console.error("No se pudo conectar con MySQL:", error.message);
-        console.error("Revisa que MySQL esté encendido, que ejecutaste moonwalker.sql y los datos del .env");
+        // Algunos errores de conexión llegan sin mensaje; el código (ETIMEDOUT, ER_ACCESS_DENIED_ERROR...) dice la causa
+        console.error("No se pudo conectar con MySQL:", error.code || "", error.message || error);
+        console.error("Intentando con host", process.env.DB_HOST, "puerto", Number(process.env.DB_PORT) || 3306,
+                      "base", process.env.DB_NAME, "SSL", ssl ? "sí" : "no");
+        console.error("Revisa que MySQL esté encendido, que la base DB_NAME exista y los datos del .env");
     });
