@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Panel - Moon Walker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles2.css">
+    <link rel="stylesheet" href="panel.css">
+    <script src="panel.js" defer></script>
+</head>
+<body class="panel">
+    <header class="panel-barra">
+        <div class="panel-marca">
+            <img src="Imagenes/logo.jpeg" alt="Logo de Moon Walker">
+            <strong>Moon Walker</strong>
+        </div>
+        <div class="panel-usuario">
+            <span id="Saludo">Hola</span>
+            <span id="Rol" class="etiqueta"></span>
+            <button id="Salir" type="button">Cerrar sesión</button>
+        </div>
+    </header>
+
+    <main class="panel-contenido">
+        <div class="panel-titulo">
+            <div>
+                <h1>Tu panel</h1>
+                <p class="subtitulo">Datos del caminador en tiempo real desde ThingsBoard.</p>
+            </div>
+            <a id="AbrirTB" class="boton-tb" href="#" target="_blank" rel="noopener">Abrir en ThingsBoard ↗</a>
+        </div>
+
+        <section class="panel-tablero">
+            <iframe id="Tablero" title="Dashboard de ThingsBoard" allowfullscreen hidden></iframe>
+            <div id="SinLink" class="sin-link" hidden>
+                <strong>Aún no hay link de ThingsBoard</strong>
+                <p>Pega el link de tu dashboard en <code>public/panel.js</code>.</p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Iniciar sesión - Moon Walker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Mismo estilo que la página de registro -->
+    <link rel="stylesheet" href="styles2.css">
+    <script src="login.js" defer></script>
+</head>
+<body>
+    <main class="auth">
+        <aside class="auth-marca">
+            <img src="Imagenes/Logo.jpeg" alt="Logo de Moon Walker">
+            <h1>Moon Walker</h1>
+            <p>Qué bueno verte de nuevo.</p>
+        </aside>
+
+        <div id="Sesion">
+            <a class="volver" href="index.html">← Volver al inicio</a>
+            <h2>Inicia sesión</h2>
+            <p class="subtitulo">Entra para ver tus evaluaciones y tu progreso.</p>
+
+            <form id="Crear_sesion">
+                <label for="Correo">Correo electrónico</label>
+                <input type="email" id="Correo" placeholder="nombre@correo.com" required autocomplete="email">
+
+                <label for="Contraseña">Contraseña</label>
+                <input type="password" id="Contraseña" placeholder="Tu contraseña" required autocomplete="current-password">
+
+                <button type="submit">Iniciar sesión</button>
+                <p>¿No tienes cuenta? <a href="Inicio_sesion.html">Crea una</a></p>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
