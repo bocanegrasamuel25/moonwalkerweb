@@ -1,0 +1,137 @@
+/* Moon Walker: crear cuenta e iniciar sesión */
+:root {
+    --noche: #1d2545;
+    --luna: #f1f3f9;
+    --papel: #ffffff;
+    --linea: #dbe0ee;
+    --texto: #1d2545;
+    --sutil: #566080;
+    --acento: #3a56c4;
+    --acento-suave: #e9edfb;
+}
+
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+    color: var(--texto);
+    background: var(--luna);
+}
+:focus-visible { outline: 3px solid var(--acento); outline-offset: 2px; }
+
+/* Estructura: marca a la izquierda, formulario a la derecha */
+.auth { display: grid; grid-template-columns: minmax(300px, 2fr) 3fr; min-height: 100vh; }
+
+.auth-marca {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: var(--noche);
+    color: #fff;
+    text-align: center;
+}
+.auth-marca img {
+    width: min(110%, 220px);
+    aspect-ratio: 1;
+    object-fit: contain;
+    padding: 2%;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 14px rgba(255, 255, 255, 0.07),
+        0 0 0 34px rgba(255, 255, 255, 0.04),
+        0 0 80px rgba(170, 185, 255, 0.35);
+}
+.auth-marca h1 { margin: 1rem 0 0; font-size: 2.2rem; line-height: 1.1; }
+.auth-marca p { margin: 0; max-width: 26ch; color: #cfd6ee; font-size: 1.1rem; }
+
+#Sesion {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+}
+.volver { align-self: flex-start; color: var(--acento); font-weight: 700; text-decoration: none; }
+.volver:hover { text-decoration: underline; }
+#Sesion h2 { margin: 1.25rem 0 0.25rem; font-size: 2rem; line-height: 1.2; }
+.subtitulo { margin: 0 0 1.5rem; color: var(--sutil); }
+
+/* Formulario */
+#Crear_sesion { display: flex; flex-direction: column; }
+#Crear_sesion > label { margin: 0.85rem 0 0.35rem; font-weight: 700; }
+#Crear_sesion input[type="text"],
+#Crear_sesion input[type="password"],
+#Crear_sesion input[type="email"],
+#Crear_sesion input[type="date"] {
+    width: 100%;
+    min-height: 50px;
+    padding: 0.6rem 0.9rem;
+    font: inherit;
+    color: var(--texto);
+    background: var(--papel);
+    border: 2px solid var(--linea);
+    border-radius: 12px;
+}
+#Crear_sesion input:focus { border-color: var(--acento); outline: none; box-shadow: 0 0 0 3px rgba(58, 86, 196, 0.2); }
+#Crear_sesion input:user-invalid { border-color: #b3261e; }
+#Crear_sesion .ayuda { margin: 0.3rem 0 0; font-size: 0.88rem; color: var(--sutil); text-align: left; }
+#CampoCodigo > label { display: block; margin: 0.85rem 0 0.35rem; font-weight: 700; }
+
+/* Selector de rol */
+.rol-selector { border: 0; padding: 0; margin: 1.4rem 0 0.4rem; min-width: 0; }
+.rol-selector legend { padding: 0; margin-bottom: 0.6rem; font-weight: 700; }
+.rol-grupo { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.rol-opcion { position: relative; display: block; margin: 0; cursor: pointer; }
+.rol-opcion input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.rol-opcion span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    height: 100%;
+    padding: 1rem;
+    background: var(--papel);
+    border: 2px solid var(--linea);
+    border-radius: 14px;
+    transition: border-color 0.15s, background 0.15s;
+}
+.rol-opcion strong { font-size: 1.05rem; }
+.rol-opcion small { color: var(--sutil); font-size: 0.9rem; }
+.rol-opcion:hover span { border-color: #aab4d8; }
+.rol-opcion input:checked + span { border-color: var(--acento); background: var(--acento-suave); }
+.rol-opcion input:focus-visible + span { outline: 3px solid var(--acento); outline-offset: 2px; }
+
+/* Botón y enlaces */
+#Crear_sesion button[type="submit"] {
+    margin-top: 1.5rem;
+    min-height: 52px;
+    font: inherit;
+    font-weight: 700;
+    color: #fff;
+    background: var(--acento);
+    border: 0;
+    border-radius: 12px;
+    cursor: pointer;
+}
+#Crear_sesion button[type="submit"]:hover { filter: brightness(1.1); }
+#Crear_sesion p { margin: 1.25rem 0 0; text-align: center; color: var(--sutil); }
+#Crear_sesion p a { color: var(--acento); font-weight: 700; }
+
+/* Pantallas pequeñas */
+@media (max-width: 760px) {
+    .auth { grid-template-columns: 1fr; min-height: 0; }
+    .auth-marca { flex-direction: row; justify-content: flex-start; gap: 0.9rem; padding: 0.9rem 1.25rem; text-align: left; }
+    .auth-marca img { width: 44px; padding: 4px; box-shadow: none; }
+    .auth-marca h1 { margin: 0; font-size: 1.3rem; }
+    .auth-marca p { display: none; }
+    #Sesion { padding: 1.5rem 1.25rem 2.5rem; }
+    .rol-grupo { grid-template-columns: 1fr; }
+}
