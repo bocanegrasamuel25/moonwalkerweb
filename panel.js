@@ -1,9 +1,7 @@
 // Panel: muestra el dashboard de ThingsBoard según el rol del usuario
 
-// Links de los dashboards de ThingsBoard. Para sacarlos, abre el dashboard,
-// hazlo público (Make public) y copia el link que te da.
-const LINK_FISIOTERAPEUTA = "";
-const LINK_PACIENTE = "";
+const LINK_FISIOTERAPEUTA = "https://thingsboard.cloud/home";
+const LINK_PACIENTE = "https://thingsboard.cloud/home";
 
 // Usuario guardado por login.js al iniciar sesión
 let usuario = null;
