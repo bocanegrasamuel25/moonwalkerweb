@@ -24,7 +24,7 @@ body.panel { display: flex; flex-direction: column; height: 100vh; }
     background: #cfd6ee;
     border-radius: 999px;
 }
-#Salir {
+#Salir, #Cambiar {
     min-height: 40px;
     padding: 0 1rem;
     font: inherit;
@@ -35,7 +35,8 @@ body.panel { display: flex; flex-direction: column; height: 100vh; }
     border-radius: 10px;
     cursor: pointer;
 }
-#Salir:hover { background: rgba(255, 255, 255, 0.1); }
+#Salir:hover, #Cambiar:hover { background: rgba(255, 255, 255, 0.1); }
+#Cambiar:disabled { opacity: 0.6; cursor: wait; }
 
 /* Contenido */
 .panel-contenido { display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 1.25rem 1.5rem 1.5rem; }
