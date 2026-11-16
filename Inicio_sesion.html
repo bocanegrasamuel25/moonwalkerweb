@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Crear cuenta - Moon Walker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles2.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <main class="auth">
+        <aside class="auth-marca">
+            <img src="Imagenes/Logo.jpeg" alt="Logo de Moon Walker">
+            <h1>Moon Walker</h1>
+            <p>Registra tu avance con el caminador, paso a paso.</p>
+        </aside>
+
+        <div id="Sesion">
+            <a class="volver" href="index.html">← Volver al inicio</a>
+            <h2>Crea tu cuenta</h2>
+            <p class="subtitulo">Solo te tomará un minuto.</p>
+
+            <form id="Crear_sesion">
+                <label for="Usuario">Nombre completo</label>
+                <input type="text" id="Usuario" placeholder="Nombre y apellido" required minlength="3" autocomplete="name">
+
+                <label for="Correo">Correo electrónico</label>
+                <input type="email" id="Correo" placeholder="nombre@correo.com" required autocomplete="email">
+
+                <label for="Contraseña">Contraseña</label>
+                <input type="password" id="Contraseña" required minlength="8"
+                       pattern="(?=.*[0-9])(?=.*[A-Za-z]).{8,}"
+                       title="Mínimo 8 caracteres, con letras y números"
+                       autocomplete="new-password">
+                <p class="ayuda">Mínimo 8 caracteres, con letras y números.</p>
+
+                <label for="Nacimiento">Fecha de nacimiento</label>
+                <input type="date" id="Nacimiento" required autocomplete="bday">
+
+                <fieldset class="rol-selector">
+                    <legend>¿Cómo vas a usar Moon Walker?</legend>
+                    <div class="rol-grupo">
+                        <label class="rol-opcion">
+                            <input type="radio" name="rol" value="paciente" required>
+                            <span><strong>Soy paciente</strong><small>Quiero ver mi progreso con el caminador</small></span>
+                        </label>
+                        <label class="rol-opcion">
+                            <input type="radio" name="rol" value="fisioterapeuta">
+                            <span><strong>Soy fisioterapeuta</strong><small>Quiero hacer seguimiento a mis pacientes</small></span>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <div id="CampoCodigo" hidden>
+                    <label for="Codigo">Código de fisioterapeuta</label>
+                    <input type="text" id="Codigo" placeholder="Código que te entregó la institución" autocomplete="off">
+                    <p class="ayuda">Sin este código no se puede crear una cuenta de fisioterapeuta.</p>
+                </div>
+
+                <button type="submit">Crear cuenta</button>
+                <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a></p>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

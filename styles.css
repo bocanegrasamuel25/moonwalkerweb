@@ -1,0 +1,205 @@
+/* Moon Walker: página principal */
+:root {
+    --noche: #1d2545;
+    --luna: #f1f3f9;
+    --papel: #ffffff;
+    --linea: #dbe0ee;
+    --texto: #1d2545;
+    --sutil: #566080;
+    --acento: #3a56c4;
+    --acento-suave: #e9edfb;
+    /* Margen lateral: contenido centrado, máximo 1100 px */
+    --lado: max(1.25rem, calc((100% - 1100px) / 2));
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+    margin: 0;
+    font-family: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--texto);
+    background: var(--luna);
+}
+img { max-width: 100%; display: block; }
+h1, h2, h3 { line-height: 1.2; margin: 0; }
+:focus-visible { outline: 3px solid #9db0ff; outline-offset: 3px; }
+
+/* Encabezado */
+#Encabezado {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1rem var(--lado);
+    background: var(--noche);
+}
+.boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.5rem 1.2rem;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-radius: 10px;
+    font: inherit;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+.boton:hover { background: rgba(255, 255, 255, 0.12); }
+.boton.principal { background: #fff; color: var(--noche); border-color: #fff; }
+.boton.principal:hover { background: var(--acento-suave); }
+
+/* Portada */
+#Titulo {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    column-gap: 3rem;
+    align-content: center;
+    align-items: center;
+    padding: 3rem var(--lado) 5.5rem;
+    background: var(--noche);
+    color: #fff;
+}
+#Titulo h1 {
+    grid-column: 1;
+    align-self: end;
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    margin-bottom: 1rem;
+}
+#Titulo p {
+    grid-column: 1;
+    align-self: start;
+    max-width: 32ch;
+    margin: 0;
+    font-size: 1.35rem;
+    color: #cfd6ee;
+}
+#Logo {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    justify-self: center;
+    width: min(100%, 300px);
+    aspect-ratio: 1;
+    object-fit: contain;
+    padding: 2%;    
+    background: #fff;
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 16px rgba(255, 255, 255, 0.07),
+        0 0 0 40px rgba(255, 255, 255, 0.04),
+        0 0 90px rgba(170, 185, 255, 0.35);
+}
+
+/* Por qué escogernos */
+#Relevancia { padding: 4.5rem var(--lado) 3rem; }
+#Relevancia h2 { font-size: 2rem; text-align: center; margin-bottom: 2.5rem; }
+#Razones {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+.Razon { display: flex; flex-direction: column; gap: 1rem; }
+.Razon_imagen {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 16px;
+    background: var(--acento-suave);
+}
+.Razon h3 { font-size: 1.1rem; }
+
+/* Producto */
+#Titulo_producto { text-align: center; font-size: 2rem; padding: 3rem var(--lado) 1.5rem; }
+#Producto {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    padding: 1.5rem var(--lado) 4.5rem;
+}
+#Producto_imagen {
+    width: 100%;
+    max-height: 420px;
+    object-fit: contain;
+    padding: 1.5rem;
+    background: var(--papel);
+    border: 1px solid var(--linea);
+    border-radius: 20px;
+}
+#Producto p { margin: 0; font-size: 1.4rem; max-width: 28ch; }
+
+/* Sensores */
+#Datos { padding: 4.5rem var(--lado); background: var(--papel); text-align: center; }
+#Datos h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+#Datos > p { margin: 0 0 2.5rem; color: var(--sutil); }
+#Sensores { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; text-align: left; }
+.Sensor {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    border: 1px solid var(--linea);
+    border-radius: 16px;
+}
+.Sensor_imagen { width: 120px; height: 120px; object-fit: cover; border-radius: 12px; flex-shrink: 0; }
+.Sensor h3 { font-size: 1.05rem; font-weight: 400; }
+
+/* Flujo de trabajo y arquitectura */
+.Imagen_y_texto { padding: 4.5rem var(--lado); }
+.Imagen_y_texto h1 { font-size: 2rem; margin-bottom: 2rem; }
+.Flujo { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; align-items: center; }
+.Flujo img {
+    width: 100%;
+    padding: 1rem;
+    background: var(--papel);
+    border: 1px solid var(--linea);
+    border-radius: 16px;
+}
+.Flujo p { margin: 0; font-size: 1.15rem; max-width: 40ch; }
+/* La segunda mitad invierte el orden: texto a la izquierda, imagen a la derecha */
+#Utilidad + .Imagen_y_texto .Flujo { grid-template-columns: 0.8fr 1.2fr; }
+#Utilidad + .Imagen_y_texto .Flujo img { order: 2; }
+
+/* Para qué sirven los datos */
+#Utilidad { padding: 4.5rem var(--lado); background: var(--noche); color: #fff; }
+#Utilidad h1 { font-size: 2rem; margin-bottom: 1rem; }
+#Utilidad p { margin: 0; max-width: 40ch; font-size: 1.5rem; color: #dfe5fb; }
+
+/* Pie */
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    padding: 2.5rem var(--lado);
+    background: var(--noche);
+    color: #fff;
+}
+footer p { margin: 0; font-size: 1.25rem; font-weight: 700; }
+
+/* Pantallas pequeñas */
+@media (max-width: 900px) {
+    #Razones { grid-template-columns: repeat(2, 1fr); }
+    #Producto, .Flujo, #Utilidad + .Imagen_y_texto .Flujo { grid-template-columns: 1fr; gap: 1.5rem; }
+    #Utilidad + .Imagen_y_texto .Flujo img { order: 0; }
+    #Titulo { grid-template-columns: 1fr; padding-bottom: 4rem; }
+    #Titulo h1, #Titulo p { grid-column: 1; }
+    #Logo { grid-column: 1; grid-row: 1; width: 190px; margin-bottom: 2rem; justify-self: start; }
+    #Titulo h1 { grid-row: 2; }
+    #Titulo p { grid-row: 3; }
+}
+@media (max-width: 560px) {
+    #Razones, #Sensores { grid-template-columns: 1fr; }
+    .Sensor { flex-direction: column; text-align: center; }
+    #Encabezado { justify-content: center; }
+}
