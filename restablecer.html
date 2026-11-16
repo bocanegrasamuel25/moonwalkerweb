@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nueva contraseña - Moon Walker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles2.css">
+    <script src="restablecer.js" defer></script>
+</head>
+<body>
+    <main class="auth">
+        <aside class="auth-marca">
+            <img src="Imagenes/Logo.jpeg" alt="Logo de Moon Walker">
+            <h1>Moon Walker</h1>
+            <p>Escoge una contraseña que no hayas usado antes.</p>
+        </aside>
+
+        <div id="Sesion">
+            <a class="volver" href="login.html">← Volver a iniciar sesión</a>
+            <h2>Nueva contraseña</h2>
+            <p class="subtitulo">Escríbela dos veces para confirmar.</p>
+
+            <form id="Crear_sesion">
+                <label for="Contraseña">Contraseña nueva</label>
+                <input type="password" id="Contraseña" required minlength="8"
+                       pattern="(?=.*[0-9])(?=.*[A-Za-z]).{8,}"
+                       title="Mínimo 8 caracteres, con letras y números"
+                       autocomplete="new-password">
+                <p class="ayuda">Mínimo 8 caracteres, con letras y números.</p>
+
+                <label for="Confirmar">Repite la contraseña</label>
+                <input type="password" id="Confirmar" required autocomplete="new-password">
+
+                <button type="submit" id="Guardar">Guardar contraseña</button>
+                <p id="Mensaje" class="aviso" role="status" hidden></p>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
