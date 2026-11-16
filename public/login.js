@@ -3,7 +3,7 @@
 // Página a la que se va después de iniciar sesión
 const DESPUES_DE_LOGIN = "panel.html";
 
-// Si la página no se abrió desde localhost:3000, las peticiones van allí (como en script.js)
+// Si la página no se abrió desde localhost:3000, las peticiones van allí 
 const SERVIDOR = (location.protocol === "file:" ||
     (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && location.port !== "3000"))
     ? "http://localhost:3000" : "";
@@ -44,7 +44,7 @@ formulario.addEventListener("submit", async function (event) {
     try {
         const resultado = await respuesta.json();
         if (respuesta.ok) {
-            // El panel lee de aquí quién entró. El servidor solo devuelve id, nombre y rol
+            // El panel lee de aquí quién entró. El servidor solo devuelve id, nombre, rol y correo
             sessionStorage.setItem("usuario", JSON.stringify(resultado.usuario));
             window.location.href = DESPUES_DE_LOGIN;
         } else {
