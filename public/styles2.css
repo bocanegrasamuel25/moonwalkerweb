@@ -124,6 +124,16 @@ body {
 #Crear_sesion button[type="submit"]:hover { filter: brightness(1.1); }
 #Crear_sesion p { margin: 1.25rem 0 0; text-align: center; color: var(--sutil); }
 #Crear_sesion p a { color: var(--acento); font-weight: 700; }
+#Crear_sesion button[type="submit"]:disabled { opacity: 0.6; cursor: wait; }
+#Crear_sesion input:disabled { opacity: 0.6; }
+
+/* Recuperar contraseña */
+.olvide { align-self: flex-end; margin-top: 0.5rem; font-size: 0.95rem; font-weight: 700; color: var(--acento); text-decoration: none; }
+.olvide:hover { text-decoration: underline; }
+#Crear_sesion .aviso { padding: 0.85rem 1rem; text-align: left; border-radius: 12px; border: 2px solid; }
+#Crear_sesion .aviso.ok { color: #1c5b34; background: #e8f5ec; border-color: #b7dfc4; }
+#Crear_sesion .aviso.error { color: #8c1d18; background: #fcebea; border-color: #f1c0bc; }
+#Crear_sesion .aviso a { color: inherit; text-decoration: underline; }
 
 /* Pantallas pequeñas */
 @media (max-width: 760px) {
