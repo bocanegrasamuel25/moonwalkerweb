@@ -297,6 +297,9 @@ app.post("/restablecer", async (req, res) => {
 // La clave nunca llega al navegador, y el dashboard de ThingsBoard ya no tiene que ser público.
 const TB_URL = (process.env.TB_URL || "https://thingsboard.cloud").replace(/\/$/, "");
 const TB_DEVICE = process.env.TB_DEVICE_ID;
+// Cada cuántos segundos manda la Raspberry un dato a ThingsBoard (TB_PERIODO_ENVIO en moonwalker.py).
+// Cada dato de en_uso vale ese tiempo, así que los segundos de uso son la suma × este valor.
+const TB_PERIODO_S = Number(process.env.TB_PERIODO_S) || 4;
 let tbToken = null;
 
 async function tbEncabezados(renovar) {
@@ -392,7 +395,7 @@ app.get("/api/tablero/resumen", requiereSesion, async (req, res) => {
                 umbrales: Object.fromEntries(UMBRALES.map((u) => [u, attr[u] !== undefined ? Number(attr[u]) : null])),
                 conectado: attr.active === true || attr.active === "true",
                 ultima_actividad: attr.lastActivityTime ? Number(attr.lastActivityTime) : null,
-                uso_hoy_s: sumaHoy?.en_uso?.[0] ? Number(sumaHoy.en_uso[0].value) : 0,
+                uso_hoy_s: sumaHoy?.en_uso?.[0] ? Number(sumaHoy.en_uso[0].value) * TB_PERIODO_S : 0,
                 apoyo_hoy_pct: promedioHoy?.en_uso?.[0] ? Math.round(100 * Number(promedioHoy.en_uso[0].value)) : null,
                 asimetria_hoy: promedioHoy?.asimetria?.[0] ? Number(promedioHoy.asimetria[0].value) : null
             };
