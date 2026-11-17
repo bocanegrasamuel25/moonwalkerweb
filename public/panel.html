@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles2.css">
     <link rel="stylesheet" href="panel.css">
+    <script src="vendor/chart.umd.js" defer></script>
     <script src="panel.js" defer></script>
 </head>
 <body class="panel">
@@ -20,25 +21,167 @@
         <div class="panel-usuario">
             <span id="Saludo">Hola</span>
             <span id="Rol" class="etiqueta"></span>
-            <button id="Cambiar" type="button">Cambiar contraseña</button>
-            <button id="Salir" type="button">Cerrar sesión</button>
+            <button id="Sonido" class="boton-barra" type="button" aria-pressed="false">Activar sonido</button>
+            <button id="Cambiar" class="boton-barra" type="button">Cambiar contraseña</button>
+            <button id="Salir" class="boton-barra" type="button">Cerrar sesión</button>
         </div>
     </header>
 
     <main class="panel-contenido">
         <div class="panel-titulo">
             <div>
-                <h1>Tu panel</h1>
-                <p class="subtitulo">Datos del caminador en tiempo real desde ThingsBoard.</p>
+                <h1 id="Titulo">Tu panel</h1>
+                <p class="subtitulo"><span id="Actualizado">Cargando datos del caminador…</span></p>
             </div>
-            <a id="AbrirTB" class="boton-tb" href="#" target="_blank" rel="noopener">Abrir en ThingsBoard ↗</a>
         </div>
 
-        <section class="panel-tablero">
-            <iframe id="Tablero" title="Dashboard de ThingsBoard" allowfullscreen hidden></iframe>
-            <div id="SinLink" class="sin-link" hidden>
-             </div>
+        <div id="Error" class="aviso-error" role="alert" hidden></div>
+
+        <!-- Actuador virtual: aviso de la alerta activa más grave -->
+        <section id="Alerta" class="alerta" role="alert" hidden>
+            <div class="alerta-icono" aria-hidden="true">!</div>
+            <div class="alerta-texto">
+                <strong id="AlertaTitulo"></strong>
+                <span id="AlertaDetalle"></span>
+            </div>
         </section>
+
+        <!-- ================= Vista del fisioterapeuta ================= -->
+        <div id="VistaFisio" class="vista" hidden>
+            <section class="estado" aria-label="Estado del caminador">
+                <div class="pastilla" id="EstadoEquipo"><span class="punto"></span><div><small>Caminador</small><strong class="detalle">—</strong></div></div>
+                <div class="pastilla" id="EstadoEvaluacion"><span class="punto"></span><div><small>Evaluación</small><strong class="detalle">—</strong></div></div>
+                <div class="pastilla" id="EstadoAlertas"><span class="punto"></span><div><small>Alertas activas</small><strong class="detalle">—</strong></div></div>
+            </section>
+
+            <section class="indicadores" aria-label="Indicadores">
+                <article class="tarjeta" id="KpiCarga"><h2>Carga actual</h2><p class="valor"><span>—</span> <small>kg</small></p><p class="nota">—</p></article>
+                <article class="tarjeta" id="KpiApoyo"><h2>Tiempo con apoyo hoy</h2><p class="valor"><span>—</span> <small>%</small></p><p class="nota">Del tiempo con el caminador encendido</p></article>
+                <article class="tarjeta" id="KpiUso"><h2>Uso hoy</h2><p class="valor"><span>—</span> <small>min</small></p><p class="nota">Minutos con carga sobre el caminador</p></article>
+                <article class="tarjeta" id="KpiInclinacion"><h2>Inclinación</h2><p class="valor"><span>—</span> <small>°</small></p><p class="nota">—</p></article>
+                <article class="tarjeta" id="KpiGiro"><h2>Giro</h2><p class="valor"><span>—</span> <small>°/s</small></p><p class="nota">Velocidad de giro del caminador</p></article>
+            </section>
+
+            <section class="bloque" id="BloqueLados">
+                <div class="bloque-titulo">
+                    <h2>Apoyo izquierdo y derecho</h2>
+                    <span class="nota-umbral" id="LadosUmbral"></span>
+                </div>
+                <div class="lados">
+                    <div class="reparto" id="RepartoAhora">
+                        <h3>Ahora</h3>
+                        <div class="reparto-barra"><span class="izq"></span><span class="der"></span></div>
+                        <div class="reparto-etiquetas"><span class="e-izq">Izquierda —</span><span class="e-der">Derecha —</span></div>
+                        <p class="reparto-texto">—</p>
+                    </div>
+                    <div class="reparto" id="RepartoHoy">
+                        <h3>Promedio de hoy</h3>
+                        <div class="reparto-barra"><span class="izq"></span><span class="der"></span></div>
+                        <div class="reparto-etiquetas"><span class="e-izq">Izquierda —</span><span class="e-der">Derecha —</span></div>
+                        <p class="reparto-texto">—</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bloque">
+                <div class="bloque-titulo">
+                    <h2>Historial</h2>
+                    <div class="rango" role="group" aria-label="Rango de tiempo">
+                        <button type="button" data-min="5">5 min</button>
+                        <button type="button" data-min="30" class="activo">30 min</button>
+                        <button type="button" data-min="120">2 h</button>
+                        <button type="button" data-min="1440">24 h</button>
+                    </div>
+                </div>
+                <div class="graficas">
+                    <figure class="grafica"><figcaption>Carga sobre el caminador (kg)</figcaption><div class="lienzo"><canvas id="GraficaCarga"></canvas></div></figure>
+                    <figure class="grafica"><figcaption>Inclinación (°)</figcaption><div class="lienzo"><canvas id="GraficaInclinacion"></canvas></div></figure>
+                    <figure class="grafica"><figcaption>Apoyo por lado (kg): <span class="leyenda izq">izquierda</span> <span class="leyenda der">derecha</span></figcaption><div class="lienzo"><canvas id="GraficaLados"></canvas></div></figure>
+                    <figure class="grafica"><figcaption>Giro (°/s)</figcaption><div class="lienzo"><canvas id="GraficaGiro"></canvas></div></figure>
+                </div>
+            </section>
+
+            <div class="dos-columnas">
+                <section class="bloque">
+                    <div class="bloque-titulo"><h2>Alertas recientes</h2></div>
+                    <div class="tabla-envoltura">
+                        <table>
+                            <thead><tr><th>Alerta</th><th>Gravedad</th><th>Estado</th><th>Inicio</th><th><span class="oculto">Acción</span></th></tr></thead>
+                            <tbody id="TablaAlarmas"><tr><td colspan="5" class="vacio">Cargando…</td></tr></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <div class="columna">
+                    <section class="bloque">
+                        <div class="bloque-titulo"><h2>Umbrales</h2></div>
+                        <form id="FormUmbrales" class="umbrales">
+                            <label>Apoyo (kg)<input type="number" step="0.1" min="0.1" name="umbral_apoyo_kg" required></label>
+                            <label>Apoyo excesivo (kg)<input type="number" step="0.1" min="0.1" name="umbral_apoyo_alto_kg" required></label>
+                            <label>Caminador inclinado (°)<input type="number" step="1" min="1" max="89" name="umbral_inclinacion_deg" required></label>
+                            <label>Posible caída (°)<input type="number" step="1" min="2" max="90" name="umbral_caida_deg" required></label>
+                            <label>Diferencia entre lados (%)<input type="number" step="1" min="5" max="100" name="umbral_asimetria_pct" required></label>
+                            <button type="submit" class="boton">Guardar umbrales</button>
+                        </form>
+                    </section>
+                    <section class="bloque">
+                        <div class="bloque-titulo"><h2>Equipo</h2></div>
+                        <dl class="lista">
+                            <div><dt>Última lectura</dt><dd id="EqLectura">—</dd></div>
+                            <div><dt>Celda izquierda</dt><dd id="EqVoltajeIzq">—</dd></div>
+                            <div><dt>Celda derecha</dt><dd id="EqVoltajeDer">—</dd></div>
+                            <div><dt>Sensores con falla</dt><dd id="EqErrores">—</dd></div>
+                            <div><dt>Aceleración total</dt><dd id="EqAcel">—</dd></div>
+                        </dl>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= Vista del paciente y la familia ================= -->
+        <div id="VistaPaciente" class="vista" hidden>
+            <section class="estado-grande" id="EstadoSimple">
+                <span class="punto"></span>
+                <div>
+                    <strong id="EstadoSimpleTitulo">Cargando…</strong>
+                    <p id="EstadoSimpleTexto"></p>
+                </div>
+            </section>
+
+            <section class="indicadores dos">
+                <article class="tarjeta" id="PacUso"><h2>Uso del caminador hoy</h2><p class="valor"><span>—</span> <small>min</small></p><p class="nota">Tiempo apoyándote en el caminador</p></article>
+                <article class="tarjeta" id="PacConexion"><h2>Caminador</h2><p class="valor texto"><span>—</span></p><p class="nota">—</p></article>
+            </section>
+
+            <section class="bloque">
+                <div class="bloque-titulo"><h2>Cómo te estás apoyando hoy</h2></div>
+                <div class="reparto grande" id="RepartoPaciente">
+                    <div class="reparto-barra"><span class="izq"></span><span class="der"></span></div>
+                    <div class="reparto-etiquetas"><span class="e-izq">Mano izquierda —</span><span class="e-der">Mano derecha —</span></div>
+                    <p class="reparto-texto">—</p>
+                </div>
+            </section>
+
+            <div class="dos-columnas">
+                <section class="bloque">
+                    <div class="bloque-titulo"><h2>Avisos recientes</h2></div>
+                    <ul class="avisos" id="ListaAvisos"><li class="vacio">Cargando…</li></ul>
+                </section>
+                <section class="bloque">
+                    <div class="bloque-titulo"><h2>Qué hacer</h2></div>
+                    <dl class="que-hacer">
+                        <dt>Posible caída</dt>
+                        <dd>Acércate a la persona, pregúntale cómo está y no la levantes con prisa. Si tiene dolor o no responde, llama al 123.</dd>
+                        <dt>Caminador inclinado</dt>
+                        <dd>Ayuda a enderezar el caminador y revisa que las cuatro patas estén en el piso y el camino esté despejado.</dd>
+                        <dt>Si te apoyas más en un lado</dt>
+                        <dd>Intenta repartir el peso entre las dos manos. Si te cuesta, cuéntaselo al fisioterapeuta.</dd>
+                        <dt>Si los avisos se repiten</dt>
+                        <dd>Coméntaselo al fisioterapeuta en la próxima sesión.</dd>
+                    </dl>
+                </section>
+            </div>
+        </div>
     </main>
 </body>
 </html>
